@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+MovieModel movieModelFromJson(String str) => MovieModel.fromJson(json.decode(str));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String movieModelToJson(MovieModel data) => json.encode(data.toJson());
 
-class Welcome {
-  Welcome({
+class MovieModel {
+  MovieModel({
     this.page,
     this.results,
     this.totalPages,
@@ -17,7 +17,7 @@ class Welcome {
   int? totalPages;
   int? totalResults;
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
     page: json["page"],
     results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
     totalPages: json["total_pages"],
@@ -70,7 +70,7 @@ class Result {
     backdropPath: json["backdrop_path"],
     genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
     id: json["id"],
-    originalLanguage: originalLanguageValues.map?[json["original_language"]],
+    originalLanguage: originalLanguageValues.map![json["original_language"]],
     originalTitle: json["original_title"],
     overview: json["overview"],
     popularity: json["popularity"].toDouble(),
@@ -92,7 +92,7 @@ class Result {
     "overview": overview,
     "popularity": popularity,
     "poster_path": posterPath,
-    "release_date": "${releaseDate?.year.toString().padLeft(4, '0')}-${releaseDate?.month.toString().padLeft(2, '0')}-${releaseDate?.day?.toString().padLeft(2, '0')}",
+    "release_date": "${releaseDate!.year.toString().padLeft(4, '0')}-${releaseDate!.month.toString().padLeft(2, '0')}-${releaseDate!.day.toString().padLeft(2, '0')}",
     "title": title,
     "video": video,
     "vote_average": voteAverage,
@@ -108,7 +108,6 @@ final originalLanguageValues = EnumValues({
 });
 
 class EnumValues<T> {
-
   Map<String, T>? map;
   Map<T, String>? reverseMap;
 
@@ -116,7 +115,7 @@ class EnumValues<T> {
 
   Map<T, String> get reverse {
     if (reverseMap == null) {
-      reverseMap = map?.map((k, v) => new MapEntry(v, k));
+      reverseMap = map!.map((k, v) => new MapEntry(v, k));
     }
     return reverseMap!;
   }
